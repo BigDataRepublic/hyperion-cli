@@ -1,15 +1,14 @@
 import click
 
 
-@click.group()
-def kube():
-    """Kubernetes interactions."""
-    pass
-
+@click.command()
+def init():
+    click.echo('Init')
 
 @click.command()
 def dashboard():
-    click.echo('Hello dashboard')
+    click.echo('Dashboard')
 
-
-kube.add_command(dashboard)
+@click.command()
+def submit():
+    click.echo('Submit')
