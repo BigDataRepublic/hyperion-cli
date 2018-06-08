@@ -10,5 +10,6 @@ setuptools.setup(
     },
     install_requires=[
         'click==6.7'
-    ]
+    ],
+    include_package_data=True
 )
