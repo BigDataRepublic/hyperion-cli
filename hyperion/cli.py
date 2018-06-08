@@ -1,6 +1,8 @@
 import click
 from .__version__ import __version__
-from .kube import init, dashboard, submit
+from .init import init
+from .dashboard import dashboard
+from .submit import submit
 
 
 @click.version_option(prog_name='hyperion-cli', version=__version__)

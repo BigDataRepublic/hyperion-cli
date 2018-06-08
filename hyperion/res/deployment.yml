@@ -1,0 +1,29 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ name }}  # the name of your job
+spec:
+  template:
+    spec:
+      volumes:
+      - hostPath:
+          path: /home/{{ username }}  # the folder you want to mount into the container
+          type: Directory
+        name: host
+      containers:
+      - name: {{ name }}  # give the image in your job a name, can be anything
+        image: 10.8.0.1:30000/{{ username }}/{{ name }}:latest  # the path to the image, can also be a generic image like `tensorflow/tensorflow:latest-gpu`
+        command: ["bash main.sh"]
+        resources:
+          limits:
+            # nvidia.com/gpu: 1  # uncomment this line to request a single GPU. Guaranteed to be available once scheduled.
+            memory: "1536Mi"  # the maximum amount of RAM your application can/will use. Not guaranteed to be available.
+            cpu: "1"  # the maximum amount of CPU's your application can/will use. Not guaranteed to be available.
+          requests:
+            memory: "1024Mi"  # the expected amount of memory that you use. This is guaranteed to stay available once scheduled.
+            cpu: "1"  # the expected amount of CPU that you use. This is guaranteed to stay available once scheduled.
+        volumeMounts:
+        - mountPath: /data  # mount the host folder specified above to /data
+          name: host
+      restartPolicy: Never

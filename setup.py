@@ -9,7 +9,9 @@ setuptools.setup(
         'console_scripts': ['hyperion=hyperion.cli:main']
     },
     install_requires=[
-        'click==6.7'
+        'click==6.7',
+        'jinja2>=2.10',
+        'pyyaml>=3.12'
     ],
     include_package_data=True
 )
