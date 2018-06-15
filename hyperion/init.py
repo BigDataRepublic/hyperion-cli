@@ -58,7 +58,7 @@ def init(kubeconfig, project_name):
     print(f'Initializing project `{project_name}`...')
 
     # Read the kubeconfig file to find the username
-    kubeconfig_path = kubeconfig if kubeconfig != '' else os.path.join(HOMEDIR, '.kube', 'config')
+    kubeconfig_path = kubeconfig if kubeconfig else os.path.join(HOMEDIR, '.kube', 'config')
     try:
         kubeconfig_yml = read_yaml(kubeconfig_path)
     except IOError as e:

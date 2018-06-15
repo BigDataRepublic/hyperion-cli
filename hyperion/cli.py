@@ -1,4 +1,5 @@
 import click
+
 from .__version__ import __version__
 from .init import init
 from .dashboard import dashboard
@@ -10,6 +11,7 @@ from .submit import submit
 def main():
     """Command line tool to interact with BDR's Hyperion cluster."""
     pass
+
 
 main.add_command(init)
 main.add_command(dashboard)
