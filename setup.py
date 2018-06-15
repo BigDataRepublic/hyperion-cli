@@ -8,10 +8,16 @@ setuptools.setup(
     entry_points={
         'console_scripts': ['hyperion=hyperion.cli:main']
     },
+    # Installs all files required
+    # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
+    package_data={'hyperion': [
+        'res/*'
+    ]},
     install_requires=[
         'click==6.7',
-        'jinja2>=2.10',
-        'pyyaml>=3.12'
+        'colorama==0.3.9',
+        'jinja2==2.10',
+        'kubernetes==6.0.0',
+        'pyyaml==3.12'
     ],
-    include_package_data=True
 )

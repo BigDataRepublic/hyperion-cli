@@ -1,8 +1,9 @@
 import click
 from shutil import copyfile
 import os
-import sys
-from .common import render_jinja_template, write_file, read_yaml, cli_common_params
+from .kube_util import hyperion_username
+from .common import render_jinja_template, write_file, cli_common_params, \
+    exit, exit_with_error, HyperionCLIException
 from .vars import *
 
 
@@ -54,41 +55,19 @@ def check_existing_files():
 @cli_common_params
 def init(kubeconfig, project_name):
     """ Initializes a new Hyperion project """
-    print(ASCII)
-    print(f'Initializing project `{project_name}`...')
+    click.echo(ASCII)
+    click.echo(f'Initializing project `{project_name}`...')
 
-    # Read the kubeconfig file to find the username
-    kubeconfig_path = kubeconfig if kubeconfig != '' else os.path.join(HOMEDIR, '.kube', 'config')
     try:
-        kubeconfig_yml = read_yaml(kubeconfig_path)
-    except IOError as e:
-        print(f'ERROR: Could not find your kubectl configuration file at {kubeconfig_path}\n'
-               'If your kubectl configuration file is in a different directory, '
-               'please specify it with the --kubeconfig argument. ')
-        sys.exit(1)
-
-    # Find Hyperion username
-    username = ''
-    try:
-        # Try to find the bdr_hyperion cluster definition in kubeconfig
-        for context in kubeconfig_yml['contexts']:
-            if context['context']['cluster'] == CLUSTER_NAME:
-                username = context['context']['user']
-
-        # Raise exception if username was not found
-        if username == '':
-            raise KeyError()
-    except KeyError as e:
-        print(f'ERROR: Could not find {CLUSTER_NAME} cluster definition in '
-               'configuration file at {kubeconfig_path}')
-        sys.exit(1)
+        username = hyperion_username(kubeconfig)
+    except HyperionCLIException as exc:
+        exit_with_error(exc)
 
     # Detect if there are already files present in this directory
     file_exists = check_existing_files()
     if file_exists is not None:
-        print(f'ERROR: File ./{file_exists} already exists. Remove this file to '
-               'continue.')
-        sys.exit(1)
+        exit_with_error(
+            f'ERROR: File ./{file_exists} already exists. Remove this file to continue.')
 
     click.echo('Generating Dockerfile...')
     copy_dockerfile()
@@ -99,4 +78,4 @@ def init(kubeconfig, project_name):
     click.echo('Generating main.sh...')
     copy_mainsh()
 
-    click.echo(f'Successfully created project {project_name}')
+    exit(f'Successfully created project {project_name}')
