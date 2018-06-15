@@ -8,6 +8,11 @@ setuptools.setup(
     entry_points={
         'console_scripts': ['hyperion=hyperion.cli:main']
     },
+    # Installs all files required
+    # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
+    package_data={'hyperion': [
+        'res/*'
+    ]},
     install_requires=[
         'click==6.7',
         'colorama==0.3.9',
