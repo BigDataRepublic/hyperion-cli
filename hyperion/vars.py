@@ -1,6 +1,6 @@
 import os
 
-DEFAULT_CLUSTER_NAME = 'bdr-hyperion'
+DEFAULT_CLUSTER_NAME = 'bdr_hyperion'
 CLUSTER_NAME = os.getenv('CLUSTER_NAME', DEFAULT_CLUSTER_NAME)
 GENERATED_FILES = ['Dockerfile', 'main.sh', 'deployment.yml']
 ASCII = '''
