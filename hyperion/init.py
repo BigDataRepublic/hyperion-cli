@@ -26,6 +26,16 @@ def copy_mainsh():
 
     copyfile(src, dest)
 
+def copy_modelpy():
+    """
+    Copies the template model.py to the project folder.
+    """
+    src = os.path.join(REALPATH, 'res', 'model.py')
+    dest = os.path.join(CWD, 'model.py')
+    if os.path.exists(dest):
+        click.echo('Skipping model.py because it already exists')
+    else:
+        copyfile(src, dest)
 
 def copy_deploymentyml(name, username):
     """
@@ -77,5 +87,8 @@ def init(kubeconfig, project_name):
 
     click.echo('Generating main.sh...')
     copy_mainsh()
+
+    click.echo('Generating model.py...')
+    copy_modelpy()
 
     exit(f'Successfully created project {project_name}')
