@@ -1,7 +1,7 @@
 from subprocess import Popen, DEVNULL, PIPE, check_call, CalledProcessError
 
 import click
-
+import base64
 from .vars import CLUSTER_NAME, DASHBOARD_URL
 from .common import cli_common_params, exit, exit_with_error, HyperionCLIException
 from .kube_util import kubectl_version, hyperion_kube_client, hyperion_username, \
@@ -17,9 +17,9 @@ def dashboard(kubeconfig):
         hyperion_client = hyperion_kube_client(kubeconfig)
         username = hyperion_username(kubeconfig)
         context_name = hyperion_context_name(kubeconfig)
-
         # Branch for development setup on minikube cluster
         if CLUSTER_NAME == 'minikube':
+            click.echo("Using minikube")
             dashboard_token = 'TOKEN NOT REQUIRED'
         else:
             user_namespace = hyperion_user_namespace(kubeconfig)
@@ -30,7 +30,7 @@ def dashboard(kubeconfig):
             dashboard_secret = next(x for x in user_namespace_secrets if
                                     x.metadata.annotations['kubernetes.io/service-account.name'] ==
                                     f'dashboard-{username}')
-            dashboard_token = dashboard_secret.data['token']
+            dashboard_token = base64.b64decode(dashboard_secret.data['token']).decode("utf-8")
     except HyperionCLIException as exc:
         exit_with_error(exc)
 
