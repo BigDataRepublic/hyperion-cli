@@ -14,7 +14,7 @@ spec:
       containers:
       - name: {{ name }}  # give the image in your job a name, can be anything
         image: 10.8.0.1:30000/{{ username }}/{{ name }}:latest  # the path to the image, can also be a generic image like `tensorflow/tensorflow:latest-gpu`
-        command: ["bash main.sh"]
+        args: ["/opt/main.sh"]
         resources:
           limits:
             # nvidia.com/gpu: 1  # uncomment this line to request a single GPU. Guaranteed to be available once scheduled.

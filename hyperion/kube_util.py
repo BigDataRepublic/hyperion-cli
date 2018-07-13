@@ -41,7 +41,3 @@ def hyperion_kube_client(kubeconfig: str):
     kube_client = config.new_client_from_config(
         config_file=kubeconfig, context=_hyperion_context(kubeconfig)['name'])
     return client.CoreV1Api(api_client=kube_client)
-
-
-def submit_job():
-    pass

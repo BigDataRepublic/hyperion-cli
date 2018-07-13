@@ -1,2 +1,4 @@
 .env
 .todo
+__pycache__
+/hyperion_cli.egg-info/

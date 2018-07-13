@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python model.py
+python3 model.py
