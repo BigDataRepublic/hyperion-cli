@@ -1,10 +1,24 @@
+import os
+import re
+
 import click
 from shutil import copyfile
-import os
+
 from .kube_util import hyperion_username
 from .common import render_jinja_template, write_file, cli_common_params, \
     exit, exit_with_error, HyperionCLIException
 from .vars import *
+
+
+def verify_project_name(project_name):
+    """
+    Verify that we have a project name that can be used
+    as a Docker image name
+    """
+    if re.fullmatch('[a-z, 0-9, \\-]*', project_name) is None:
+        raise HyperionCLIException(
+            'Project name may only contain lowercase a-z, '
+            'numeric values and a dash (-)')
 
 
 def copy_dockerfile():
@@ -26,6 +40,7 @@ def copy_mainsh():
 
     copyfile(src, dest)
 
+
 def copy_modelpy():
     """
     Copies the template model.py to the project folder.
@@ -36,6 +51,7 @@ def copy_modelpy():
         click.echo('Skipping model.py because it already exists')
     else:
         copyfile(src, dest)
+
 
 def copy_deploymentyml(name, username):
     """
@@ -65,13 +81,15 @@ def check_existing_files():
 @cli_common_params
 def init(kubeconfig, project_name):
     """ Initializes a new Hyperion project """
-    click.echo(ASCII)
-    click.echo(f'Initializing project `{project_name}`...')
-
     try:
+        # First do some basic checks
+        verify_project_name(project_name)
         username = hyperion_username(kubeconfig)
     except HyperionCLIException as exc:
         exit_with_error(exc)
+
+    click.echo(ASCII)
+    click.echo(f'Initializing project `{project_name}`...')
 
     # Detect if there are already files present in this directory
     file_exists = check_existing_files()
