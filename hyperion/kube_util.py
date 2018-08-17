@@ -8,7 +8,9 @@ from .common import HyperionCLIException
 
 def kubectl_version():
     try:
-        check_call(['kubectl', 'version'], stdout=DEVNULL, stderr=DEVNULL)
+        # Use --client flag so that we check the ctl client version only.
+        # Without this flag, kubectl also checks the cluster version.
+        check_call(['kubectl', 'version', '--client'], stdout=DEVNULL, stderr=DEVNULL)
     except CalledProcessError:
         raise HyperionCLIException('kubectl is not installed')
 
