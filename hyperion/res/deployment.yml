@@ -18,10 +18,10 @@ spec:
         resources:
           limits:
             # nvidia.com/gpu: 1  # uncomment this line to request a single GPU. Guaranteed to be available once scheduled.
-            memory: "1536Mi"  # the maximum amount of RAM your application can/will use. Not guaranteed to be available.
+            memory: "4096Mi"  # the maximum amount of RAM your application can/will use. Not guaranteed to be available.
             cpu: "1"  # the maximum amount of CPU's your application can/will use. Not guaranteed to be available.
           requests:
-            memory: "1024Mi"  # the expected amount of memory that you use. This is guaranteed to stay available once scheduled.
+            memory: "2048Mi"  # the expected amount of memory that you use. This is guaranteed to stay available once scheduled.
             cpu: "1"  # the expected amount of CPU that you use. This is guaranteed to stay available once scheduled.
         volumeMounts:
         - mountPath: /data  # mount the host folder specified above to /data
