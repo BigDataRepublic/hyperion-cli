@@ -18,6 +18,6 @@ setuptools.setup(
         'colorama==0.3.9',
         'jinja2==2.11.3',
         'kubernetes>=6.0.0, <=10.0.1',
-        'pyyaml>=3.12, <=5.1.2'
+        'PyYAML>=5.4'
     ],
 )
