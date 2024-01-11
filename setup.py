@@ -16,7 +16,7 @@ setuptools.setup(
     install_requires=[
         'click==6.7',
         'colorama==0.3.9',
-        'jinja2==2.11.3',
+        'jinja2==3.1.3',
         'kubernetes>=6.0.0, <=10.0.1',
         'PyYAML>=5.4'
     ],
